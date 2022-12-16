@@ -1,18 +1,11 @@
 import express from "express";
 import { testConnection } from "./config/dbConnect.js";
-import books from "./models/Book.js";
+import routes from "./routes/index.js";
 
 testConnection();
 
 const app = express();
 
-app.use(express.json());
-
-app.get("/books", (_req, res) => {
-  books.find((_err, books) => {
-    res.status(200).json(books);
-  });
-});
-
+routes(app)
 
 export default app;
