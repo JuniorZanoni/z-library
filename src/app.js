@@ -1,18 +1,18 @@
 import express from "express";
+import { testConnection } from "./config/dbConnect.js";
+import books from "./models/Book.js";
+
+testConnection();
 
 const app = express();
 
-const books = [
-  { id: 1, titulo: "aaa" },
-  { id: 2, titulo: "bbb" },
-];
+app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.status(200).send("course of Node")
-})
-
-app.get("/books", (req, res) => {
-  res.status(200).json(books);
+app.get("/books", (_req, res) => {
+  books.find((_err, books) => {
+    res.status(200).json(books);
+  });
 });
+
 
 export default app;
