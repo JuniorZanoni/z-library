@@ -1,13 +1,16 @@
 import express from "express";
 import BookController from "../controllers/booksController.js";
+import checkAuthorId from "../middlewares/checkAuthorId.js";
+import checkToken from "../middlewares/checkToken.js";
 
 const booksRouter = express.Router();
 
 booksRouter
-  .get("/books", BookController.getAllBooks)
+  .get("/books/search",  BookController.getBooksByBookPublisher)
   .get("/books/:id", BookController.getBookById)
-  .post("/books", BookController.registerBook)
-  .put("/books/:id", BookController.updateBook)
-  .delete("/books/:id", BookController.deleteBook);
+  .get("/books", BookController.getAllBooks)
+  .post("/books", checkToken, checkAuthorId, BookController.registerBook)
+  .put("/books/:id", checkToken,BookController.updateBook)
+  .delete("/books/:id", checkToken,BookController.deleteBook);
 
 export default booksRouter;
